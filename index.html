@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Sign Up Page</title>
+    <style>
+        .error {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-block">
+
+        <div class="form-header">
+            <div class="header-text">
+
+            </div>
+        </div>
+        <div class="form-body">
+
+            <h1>Sign Up</h1>
+
+            <br>
+
+            <form id="sign-up-form" method="post" onsubmit="return validateForm()">
+                <div class="row">
+                    <label>
+                        <input type="text" id="firstName" name="firstName" placeholder="First name" minlength="2">
+                    </label>
+                    <br>
+                    <label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Last name" minlength="2">
+                    </label>
+                </div>
+                <br>
+                <div class="row">
+                    <label>
+                        <input type="email" id="email" name="email" placeholder="Email">
+                        <span id="emailError" class="error"></span>
+                    </label>
+                    <br>
+                    <label>
+                        <input type="tel" id="phone" name="phone_number" placeholder="Phone number"
+                            oninput="validateNumber(this)">
+                        <span id="phoneError" class="error"></span>
+                    </label>
+                </div>
+                <br>
+                <div class="row">
+                    <label>
+                        <input type="password" id="password1" name="password1" placeholder="Password">
+                    </label>
+                    <br>
+                    <label>
+                        <input type="password" id="password2" name="password2" placeholder="Confirm Password">
+                        <span id="passwordError" class="error"></span>
+                    </label>
+                </div><br>
+                <button type="submit" class="button-create-account">
+                    Register
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <script>
+        function validateForm() {
+            // Reset error messages
+            document.getElementById('emailError').innerHTML = '';
+            document.getElementById('passwordError').innerHTML = '';
+            document.getElementById('phoneError').innerHTML = '';
+
+            // Get form values
+            var firstName = document.getElementById('firstName').value;
+            var lastName = document.getElementById('lastName').value;
+            var email = document.getElementById('email').value;
+            var phone = document.getElementById('phone').value;
+            var password1 = document.getElementById('password1').value;
+            var password2 = document.getElementById('password2').value;
+
+            // Validate first name and last name (non-empty)
+            if (firstName.trim() === '' || lastName.trim() === '') {
+                alert('First name and last name are required');
+                return false;
+            }
+
+             // Validate email format
+             var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').innerHTML = 'Invalid email format';
+                return false;
+            }
+            
+            // Validate phone number (non-empty)
+            if (phone.trim() === '') {
+                alert('Phone number is required');
+                return false;
+            }
+
+            
+
+            // Validate phone number (numeric, length 10, starts with 6, 7, 8, or 9)
+            var phoneRegex = /^[6-9]\d{9}$/;
+            if (!phoneRegex.test(phone)) {
+                document.getElementById('phoneError').innerHTML = 'Please enter a valid 10-digit phone number starting with 6, 7, 8, or 9.';
+                return false;
+            }
+
+           
+
+            if (password1.trim() === '') {
+                alert('Password is required');
+                return false;
+            }
+
+            // Validate password minimum length
+            if (password1.length < 8) {
+                alert('Password must be at least 8 characters');
+                return false;
+            }
+
+            if (password2.trim() === '') {
+                alert('Confirm Password is required');
+                return false;
+            }
+
+            // Validate password match
+            if (password1 !== password2) {
+                document.getElementById('passwordError').innerHTML = 'Passwords do not match';
+                return false;
+            }
+
+            // If all validations pass, display success alert
+            alert('Form Submitted');
+
+            // Allow form submission
+            return true;
+        }
+
+        function validateNumber(input) {
+            // Remove non-numeric characters from input
+            input.value = input.value.replace(/\D/g, '');
+
+            // Display error if the input is not a number
+            var errorSpan = document.getElementById('phoneError');
+            if (!/^[6-9]\d{9}$/.test(input.value)) {
+                errorSpan.textContent = 'Please enter a valid phone number.';
+            } else {
+                errorSpan.textContent = '';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
